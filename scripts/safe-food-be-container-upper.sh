@@ -104,6 +104,49 @@ else
 
 fi
 
+if commando -v openssl &> /dev/null; then
+
+    echo -e '\033[0;32mOpenSSL instalado.\033[0m'
+
+else
+
+    echo -e '\033[0;33mOpenSSL não instalado.\033[0m'
+    sudo apt-get install openssl
+fi
+
+sudo mkdir -p /etc/nginx/ssl/
+
+ssl_conf_path="/etc/nginx/ssl/openssl.cnf"
+
+echo "
+[req]
+default_bits = 2048
+prompt = no
+default_md = sha256
+distinguished_name = dn
+
+[dn]
+C=BR
+ST=SP
+L=São Paulo
+O=Safe Food
+OU=Safe Food
+CN=|Vinicius
+emailAddress=viniciussoaresdesouza180804@gmail.com
+" > $ssl_conf_path
+
+ssl_cert_name="sf-certificate.crt"
+ssl_key_name="sf-private-key.key"
+
+sudo openssl genpkey -algorithm RSA -out $ssl_key_name
+
+sudo openssl req -new -x509 -config $ssl_conf_path -key $ssl_key_name -out $ssl_cert_name -days 365
+
+
+
+sudo cp $ssl_key_name /etc/nginx/ssl/
+sudo cp $ssl_cert_name /etc/nginx/ssl/
+
 ipv4=$(curl http://checkip.amazonaws.com/)
 
 echo "
@@ -117,14 +160,13 @@ events {
 http {
     # Configuração específica para HTTP
     server {
-        listen 80;
+        listen 443 ssl;
         server_name $ipv4;
+        ssl_certificate /etc/nginx/ssl/$ssl_cert_name;
+        ssl_certificate_key /etc/nginx/ssl/$ssl_key_name;
 
         location / {
             proxy_pass http://localhost:8080;
-            proxy_set_header Host \$host;
-            proxy_set_header X-Real-IP \$remote_addr;
-            proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
         }
     }
 }
@@ -135,4 +177,8 @@ sudo systemctl reload nginx
 
 echo ''
 
-sudo docker run -it -p 8080:80 viniciussoares18/safe-food-be-container-image:prod
+echo "
+52.72.117.23 back-lb.safefood.com
+" > "/etc/hosts"
+
+sudo docker run -it -p 8080:8443 viniciussoares18/sf-backend:prod1

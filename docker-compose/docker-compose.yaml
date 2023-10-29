@@ -6,13 +6,13 @@ services:
       - "8080:8081"
   git:
     image: alpine/git
-    command: git clone https://github.com/Pesquisa-e-Inovacao-Grupo-06/safe-food-infra-resources.git
+    command: git clone https://github.com/Pesquisa-e-Inovacao-Grupo-06/safe-food-infra-resources.git /home
     volumes:
-      - ./ssl:safe-food-infra-resources/ssl/
+      - /etc/ssl:/home/safe-food-infra-resources/ssl/
   nginx:
     image: viniciussoares18/sf-back-nginx:v2
     volumes:
-      - ./ssl:/etc/nginx/ssl/
+      - /etc/ssl:/etc/nginx/ssl/
     ports:
       - "80:80"
     depends_on:

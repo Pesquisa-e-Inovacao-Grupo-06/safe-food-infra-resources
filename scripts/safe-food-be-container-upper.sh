@@ -160,10 +160,11 @@ events {
 http {
     # Configuração específica para HTTP
     server {
-        listen 443 ssl;
+        # listen 443 ssl;
+        listen 80;
         server_name $ipv4;
-        ssl_certificate /etc/nginx/ssl/$ssl_cert_name;
-        ssl_certificate_key /etc/nginx/ssl/$ssl_key_name;
+        # ssl_certificate /etc/nginx/ssl/$ssl_cert_name;
+        # ssl_certificate_key /etc/nginx/ssl/$ssl_key_name;
 
         location / {
             proxy_pass http://localhost:8080;
@@ -178,7 +179,7 @@ sudo systemctl reload nginx
 echo ''
 
 echo "
-52.72.117.23 back-lb.safefood.com
+34.205.109.148 back-lb.safefood.com
 " > "/etc/hosts"
 
-sudo docker run -it -p 8080:8443 viniciussoares18/sf-backend:prod1
+sudo docker run -it -p 8080:8443 viniciussoares18/sf-backend:prod8

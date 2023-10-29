@@ -17,7 +17,7 @@ fi
 
  echo ' Saudações ao Script de Subida de Containers'
 
- backend_server="23.23.102.249"
+ backend_server="52.70.171.147"
 
  nc -z -w 2 $backend_server 443
 
@@ -175,10 +175,6 @@ http {
 
         location / {
             proxy_pass http://localhost:8080;
-            add_header Access-Control-Allow-Origin 'https://23.23.102.249';
-            add_header Access-Control-Allow-Methods 'GET, POST, OPTIONS';
-            add_header Access-Control-Allow-Headers 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
-            add_header Access-Control-Allow-Credentials 'true';
         }
     }
 }
@@ -189,4 +185,8 @@ sudo systemctl reload nginx
 
 echo ''
 
-sudo docker run -p 8080:8080 viniciussoares18/safe-food-fe-container-image:prod-8
+echo "
+$backend_server back-lb.safefood.com
+" > "/etc/hosts"
+
+sudo docker run -it -p 8080:8080 viniciussoares18/sf-frontend:prod6

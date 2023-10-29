@@ -1,0 +1,12 @@
+version: '3'
+services:
+  backend:
+    image: viniciussoares18/sf-back:v1
+    ports:
+      - "8080:8081"
+  nginx:
+    image: viniciussoares18/sf-back-nginx:v1
+    ports:
+      - "80:80"
+    depends_on:
+      - backend

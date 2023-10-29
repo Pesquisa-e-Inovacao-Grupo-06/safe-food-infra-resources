@@ -1,0 +1,14 @@
+version: '3'
+services:
+  frontend:
+    image: viniciussoares18/sf-front:v1
+    ports:
+      - "8081:4173"
+  nginx:
+    image: viniciussoares18/sf-front-nginx:v1
+    volumes:
+      - /home/ubuntu/safe-food-infra-resources/ssl:/etc/nginx/ssl
+    ports:
+      - "443:443"
+    depends_on:
+      - frontend

@@ -10,7 +10,7 @@ services:
     volumes:
       - ./ssl:safe-food-infra-resources/ssl/
   nginx:
-    image: viniciussoares18/sf-back-nginx:v1
+    image: viniciussoares18/sf-back-nginx:v2
     volumes:
       - ./ssl:/etc/nginx/ssl/
     ports:

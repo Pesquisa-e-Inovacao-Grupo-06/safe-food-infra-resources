@@ -4,9 +4,17 @@ services:
     image: viniciussoares18/sf-back:v1
     ports:
       - "8080:8081"
+  git:
+    image: alpine/git
+    command: git clone https://github.com/Pesquisa-e-Inovacao-Grupo-06/safe-food-infra-resources.git
+    volumes:
+      - ./ssl:safe-food-infra-resources/ssl/
   nginx:
     image: viniciussoares18/sf-back-nginx:v1
+    volumes:
+      - ./ssl:/etc/nginx/ssl/
     ports:
       - "80:80"
     depends_on:
       - backend
+      - git

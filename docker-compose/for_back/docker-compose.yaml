@@ -5,7 +5,7 @@ services:
     ports:
       - "8080:8081"
   nginx:
-    image: viniciussoares18/sf-back-nginx:v2
+    image: viniciussoares18/sf-back-nginx:v3
     volumes:
       - /home/ubuntu/safe-food-infra-resources/ssl:/etc/nginx/ssl
     ports:

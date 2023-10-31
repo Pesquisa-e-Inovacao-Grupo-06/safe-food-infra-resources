@@ -1,0 +1,9 @@
+version: "3"
+services:
+  lb:
+    image: nginx:latest
+    volumes:
+      - /home/ubuntu/safe-food-infra-resources/ssl:/etc/nginx/ssl
+      - /home/ubuntu/safe-food-infra-resources/docker-compose/for_lb/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "443:443"

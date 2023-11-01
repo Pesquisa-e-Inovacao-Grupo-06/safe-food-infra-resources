@@ -3,7 +3,7 @@ services:
   backend:
     image: viniciussoares18/sf-back:v1
     ports:
-      - "8080:8081"
+      - "8443:8443"
   nginx:
     image: nginx:latest
     volumes:

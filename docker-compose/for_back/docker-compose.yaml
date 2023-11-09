@@ -1,7 +1,7 @@
 version: '3'
 services:
   backend:
-    image: viniciussoares18/sf-back:v2
+    image: viniciussoares18/sf-back:v1
     ports:
       - "8443:8443"
   nginx:
